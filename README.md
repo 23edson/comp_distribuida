@@ -1,4 +1,6 @@
-t1-part1 ok (BUG no nick arrumado) - Para testar, basta rodar chat.py
+t1-part1 ok (BUG no nick arrumado) - Para testar, basta rodar chat.py;
+
+
 t1-part2 ok (Comunicação de diferentes servidores) -
 	 Para testar, é preciso inicializar n instâncias de chat.py. Deste
 	 modo, inicializando o arquivo via linha de comando seguindo o padrão:
