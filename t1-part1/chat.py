@@ -1,3 +1,6 @@
+#Computação Distribuída
+#Edson Lemes da Silva
+
 from bottle import run, get, post, view, request, redirect, response
 
 messages = [("Nobody", "Hello!")]
