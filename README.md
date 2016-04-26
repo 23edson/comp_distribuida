@@ -21,4 +21,18 @@ t1-part2 ok (Comunicação de diferentes servidores) -
 	Nesta parte do trabalho foi incorporado os seguintes métodos:
 	      - GET /peers - Retorna a lista de servidores conhecidos; 
 	      - GET /msgs - Retorna a lista de mensagens;
-	      
+
+T2 - OK (dht)
+
+   Para testar, é preciso iniciar instâncias de dht.py; passando como
+   parâmetro na linha de comando: o número da porta utilizada;
+   Posteriormente é necessário iniciar o cliente para um servidor específico; passando como argumento a porta deste cliente, e as portas de seus vizinhos.
+   ex: dht.py 8080
+       dht.py 8081
+       dht.py 8082
+       client.py 8081 8080 8082 (client para o servidor 8081, conhece 8080 e 8082)
+
+       Métodos incorporados:
+       	       - GET /dht/lookup/<key> - Retorna a busca por um chave localmente;
+	       - GET /dht/lookup_dist/<key> - Retorna a busca por uma chave distribuída(Retorna o nodo a quem esta chave esta associada)
+	       - PUT /dht/<key>/<value> - Tenta inserir o valor associado com a chave na tabela, caso houver alguma colisão, o mesmo é encaminhado para o novo a qual houve a colisão; 
