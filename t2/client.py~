@@ -1,0 +1,37 @@
+import requests
+import json
+import sys
+from dht import hashFunction
+NO_ERROR = 200
+
+url = "localhost:"
+protocol = "http://"
+hosts = []
+
+port = int(sys.argv[1])
+
+for i in sys.argv:
+    if i != 'client.py' and i != sys.argv[1]:
+        hosts.append(url+str(i))
+
+for i in hosts:
+    req = requests.put(protocol + url+ str(port) + '/dht/' + hashFunction(protocol+i) + "/" + i)
+    if not req.status_code == NO_ERROR:
+        print("PUT request problem")
+
+for i in hosts:
+    req = requests.get(protocol+url+str(port) + '/dht/lookup/' + hashFunction(protocol + i))
+    if not req.status_code == NO_ERROR:
+        print("GET request problem")
+    else:
+        data = json.loads(req.text)
+        print(data)
+
+for i in hosts:
+    req = requests.get(protocol+url+str(port) + '/dht/lookup_dist/' + hashFunction(protocol+i))
+    if req.status_code == NO_ERROR:
+        data = json.loads(req.text)
+        print(data)
+    else:
+        print("GET-2 request problem")
+            

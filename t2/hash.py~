@@ -1,0 +1,6 @@
+def hashFunction(key):
+    out = md5(key.encode('utf-8')).hexdigest()
+    out_1 = '\0'
+    for character in out:
+        out_1 = str(out_1) + str(ord(character)%MOD)
+    return out_1
