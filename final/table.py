@@ -8,11 +8,18 @@ from threading import Lock
 import requests
 import sys
 import time
+from vectorclock import VectorClock
 
 
-messages = [("Nobody", "Hello!"),("Ola","tchau"), ("NFNFNF","dipnw")]
-messages_1 = []
+messages = []
 servers_list = []
+layoutx = []
+layouty = []
+x = 0
+y = 0
+eventCount = 0
+messages_1 = []
+
 aux = []
 mylink = None
 name = "Nobody"
@@ -22,23 +29,38 @@ NO_ERROR = 200
 @get('/')
 @view('index')
 def index():
-    return {'messages': messages, 'name': name }
+    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty }
 
 @route('/<name>')
 @view('index')
 def index(name):
-    return {'messages': messages, 'name': name}
+    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty}
 
 @post('/send')
 def sendMessage():
-    name=""
-    m = request.forms.get('message')
-    n = request.forms.get('name')
-    
-    messages.append([n, m])
-    messages_1.append([n,m])
-    
-    redirect('/'+n)
+	global x
+	global y
+    #name=""
+	m = []
+	for i in range(1,(x*y)+1):
+		m.append(request.forms.get('message' + str(i)))
+		
+	#print(m)
+	
+	for (indexx,i) in enumerate(m):
+		for (index,j) in enumerate(messages):
+			if indexx == index:
+				#print(str(indexx) +" " + str(index))
+				j[0] = i
+				aux = getCounter(str(index))
+				Vector.update(str(index), aux++)
+				#print(j)
+				break
+				
+	#print(messages)
+   # messages.append([n, m])
+    #messages_1.append([n,m])
+	redirect('/')
 
 @get('/peers')
 def peersMethod():
@@ -47,8 +69,13 @@ def peersMethod():
 
 @get('/msgs')
 def peersMethod():
-    data = json.dumps(messages_1)
+    data = json.dumps(messages)
     return data
+
+@get('/clock')
+def clockMethod():
+	data = json.dumps(Vector)
+	return data
 
 def getPeers(who):
     url = str(who) + "/peers"
@@ -81,28 +108,23 @@ def getMessages(who):
 
     return None
 
+def getClock(who):
+	url = str(who) + "/clock"
+	try:
+		req = requests.get(url)
+		if req.status_code == NO_ERROR
+			data = json.loads(req.text)
+			return data
+	except:
+		time.sleep(1)
+	return None
 
-def checkList(messages, msg, host):
-    url = str(host)
-    qtd = None
-    i = 0
-    for x, y in aux:
-        #print(str(x)+"\n" + str(y))
-        if x == url:
-            qtd = y
-            break
-        
-    if qtd!=None and qtd < len(msg):
-        for msg_1 in msg:
-            if i < qtd:
-                i=i+1
-            else:
-                messages.append(msg_1)
-        for idx, row in enumerate(aux):
-            hostName, count = row
-            if hostName == url:
-                aux[idx] = (url, qtd+1)
-                break
+
+def checkList(msg, host):
+    for (index,msg) in msg:
+    	aux = getCounter(str(index))
+    	try:
+    		Vector.update()
     
     
     
@@ -110,6 +132,7 @@ def checkList(messages, msg, host):
 def serversControl(thread_name,mutex):
     print(thread_name + " iniciada")
     while 1:
+    	
         #print("")
         mutex.acquire(1)
         time.sleep(1)
@@ -135,24 +158,50 @@ def messagesControl(thread_name,mutex):
         mutex.acquire(1)
         time.sleep(1)
         global messages
-        for links in servers_list:
-            if links != myLink:
-                msg = getMessages(links)
+        for link in servers_list:
+            if link != myLink:
+                msg = getMessages(link)
                 if msg != None:
                     #print("entrei")
-                    checkList(messages, msg, links)
+                    checkList(msg, link)
         mutex.release()
+        
+def getTableSize(x,y):
+	layoutx.append("")
+	count = 0
+	for i in range(1,x+1):
+			layoutx.append(i)
+			
+	for i in range(1,y+1):
+		layouty.append(i)
+		
+	for i in range(1,y+1):
+		for j in range(1,x+1):
+			Vector.update(str(count), 0)
+			count = count+1
+			if j == x:
+				messages.append(["", str(i)+","+str(j)+";"])
+				
+			else:
+				messages.append(["",str(i)+","+str(j)])        
 
-
+x = int(sys.argv[2])
+y = int(sys.argv[3])
+getTableSize(x,y)
+#print(layoutx)
+#print(layouty)
+#print(messages)
 myLink = "http://localhost:" + str(sys.argv[1])
 servers_list.append(myLink)
+
 for i in sys.argv:
-    if i != 'chat.py' and i != sys.argv[1]:
+    if i != 'table.py' and i != sys.argv[1] and i!=sys.argv[2] and i!=sys.argv[3]:
         servers_list.append("http://localhost:" +str(i))
-        msg = ("http://localhost:"+str(i),0)
-        aux.append(msg)
+        #msg = ("http://localhost:"+str(i),0)
+        #aux.append(msg)
 print("lista de conhecidos inicializada\n")
 
+vector = VectorClock()
 
     
 mutex = Lock()
