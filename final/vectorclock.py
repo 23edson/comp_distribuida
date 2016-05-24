@@ -4,6 +4,18 @@ class VectorClock(object):
     def __init__(self):
         self.clock = {}  # node => counter
         
+    def getVector(self):
+    	m = []
+    		a = "%s"
+    		for node in sorted(self.clock.keys())])
+    		#m.append[('%s' % node,'%d' % self.clock[node])]
+    		
+    	return m
+    	
+    def listToObj(self,m):
+    	for(i,j)in m:
+    		self.clock[i] = j
+        
     def getCounter(self,node):
     	if node in self.clock:
     		return self.clock[node]
@@ -19,3 +31,4 @@ class VectorClock(object):
     def __str__(self):
         return "{%s}" % ", ".join(["%s:%d" % (node, self.clock[node])
                                    for node in sorted(self.clock.keys())])
+                                   

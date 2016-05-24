@@ -28,7 +28,7 @@ table{background: #fff none repeat scroll 0 0;
 
 <body>
 
-  <h1> PLANILHA 1</h1>
+  <h1 align="left">   PLANILHA 1</h1>
  
   <form id="form1" name="form1 "action="/send" method="POST" >
   	<table cellpadding="0"; cellspacing="0">

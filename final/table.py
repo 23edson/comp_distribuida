@@ -17,13 +17,15 @@ layoutx = []
 layouty = []
 x = 0
 y = 0
-eventCount = 0
+eventCount = 1
 messages_1 = []
 
 aux = []
 mylink = None
 name = "Nobody"
 NO_ERROR = 200
+
+Vector = VectorClock()
 #msgsCounter = 1
 
 @get('/')
@@ -52,8 +54,10 @@ def sendMessage():
 			if indexx == index:
 				#print(str(indexx) +" " + str(index))
 				j[0] = i
-				aux = getCounter(str(index))
-				Vector.update(str(index), aux++)
+				aux = Vector.getCounter(str(index))
+				aux = aux + 1
+				Vector.update(str(index), aux)
+			
 				#print(j)
 				break
 				
@@ -74,7 +78,8 @@ def peersMethod():
 
 @get('/clock')
 def clockMethod():
-	data = json.dumps(Vector)
+	m =Vector.getVector()
+	data = json.dumps(m)
 	return data
 
 def getPeers(who):
@@ -112,7 +117,7 @@ def getClock(who):
 	url = str(who) + "/clock"
 	try:
 		req = requests.get(url)
-		if req.status_code == NO_ERROR
+		if req.status_code == NO_ERROR:
 			data = json.loads(req.text)
 			return data
 	except:
@@ -121,10 +126,26 @@ def getClock(who):
 
 
 def checkList(msg, host):
-    for (index,msg) in msg:
-    	aux = getCounter(str(index))
-    	try:
-    		Vector.update()
+	temp = VectorClock()
+	data = getClock(host)
+	temp.listToObj(data)
+	for (index,msgi) in enumerate(msg):
+		aux = Vector.getCounter(str(index))
+		try:
+			aux_1 = temp.getCounter(str(index))
+			Vector.update(str(index),aux_1)
+		except:
+			continue
+			
+			
+		for (i,mes) in enumerate(messages):
+			if i == index:
+				mes[0] = msgi
+    			
+    	
+    			
+    		
+    	
     
     
     
@@ -201,7 +222,7 @@ for i in sys.argv:
         #aux.append(msg)
 print("lista de conhecidos inicializada\n")
 
-vector = VectorClock()
+
 
     
 mutex = Lock()
