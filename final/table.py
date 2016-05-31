@@ -17,12 +17,12 @@ layoutx = []
 layouty = []
 x = 0
 y = 0
-eventCount = 1
-messages_1 = []
+#eventCount = 1
+#messages_1 = []
 
-aux = []
+#aux = []
 mylink = None
-name = "Nobody"
+
 NO_ERROR = 200
 
 Vector = VectorClock()
@@ -68,6 +68,7 @@ def sendMessage():
 
 @get('/peers')
 def peersMethod():
+
     data = json.dumps(servers_list)
     return data
 
@@ -93,7 +94,7 @@ def getPeers(who):
             
             return data
     except:
-       time.sleep(2) 
+       time.sleep(1) 
 
     return None
 
@@ -109,7 +110,7 @@ def getMessages(who):
             
             return data
     except:
-        time.sleep(2)
+        time.sleep(1)
 
     return None
 
@@ -129,18 +130,22 @@ def checkList(msg, host):
 	temp = VectorClock()
 	data = getClock(host)
 	temp.listToObj(data)
+	#print(msg)
+	#return 0
 	for (index,msgi) in enumerate(msg):
 		aux = Vector.getCounter(str(index))
+		
 		try:
 			aux_1 = temp.getCounter(str(index))
-			Vector.update(str(index),aux_1)
+			Vector.update(str(index),int(aux_1))
 		except:
 			continue
 			
 			
 		for (i,mes) in enumerate(messages):
 			if i == index:
-				mes[0] = msgi
+				mes[0] = msgi[0]
+				#print(str(i) + " " + str(mes[0]))
     			
     	
     			
@@ -156,7 +161,7 @@ def serversControl(thread_name,mutex):
     	
         #print("")
         mutex.acquire(1)
-        time.sleep(1)
+        time.sleep(0.7)
         global servers_list
         for links in servers_list:
             if links != myLink: 
@@ -166,8 +171,8 @@ def serversControl(thread_name,mutex):
                     for test in new_peer:
                         if not test in servers_list:
                             servers_list.append(test)
-                            msg = (test, 0)
-                            aux.append(msg)
+                            #msg = (test, 0)
+                            #aux.append(msg)
         mutex.release()
         #  time.sleep(1)
 
@@ -177,13 +182,14 @@ def messagesControl(thread_name,mutex):
     while 1:
         #print("")
         mutex.acquire(1)
-        time.sleep(1)
+        time.sleep(0.6)
         global messages
         for link in servers_list:
             if link != myLink:
                 msg = getMessages(link)
                 if msg != None:
                     #print("entrei")
+                    #print(msg)
                     checkList(msg, link)
         mutex.release()
         
