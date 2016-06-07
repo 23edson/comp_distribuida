@@ -23,7 +23,7 @@ table{background: #fff none repeat scroll 0 0;
     			
     		});
     </script>
-
+	<meta http-equiv="refresh" content="10" >
   </head>
 
 <body>

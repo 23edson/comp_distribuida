@@ -160,8 +160,9 @@ def serversControl(thread_name,mutex):
     while 1:
     	
         #print("")
+        time.sleep(1)
         mutex.acquire(1)
-        time.sleep(0.7)
+        
         global servers_list
         for links in servers_list:
             if links != myLink: 
@@ -180,9 +181,9 @@ def serversControl(thread_name,mutex):
 def messagesControl(thread_name,mutex):
     print(thread_name + " iniciada")
     while 1:
-        #print("")
+        #print("f")
         mutex.acquire(1)
-        time.sleep(0.6)
+        time.sleep(0.8)
         global messages
         for link in servers_list:
             if link != myLink:
