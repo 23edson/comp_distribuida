@@ -31,12 +31,12 @@ Vector = VectorClock()
 @get('/')
 @view('index')
 def index():
-    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty }
+    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty, 'users' : servers_list}
 
 @route('/<name>')
 @view('index')
 def index(name):
-    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty}
+    return {'messages': messages, 'layoutx' : layoutx, 'layouty' : layouty,'users' : servers_list}
 
 @post('/send')
 def sendMessage():
@@ -147,11 +147,15 @@ def checkList(msg, host):
 				mes[0] = msgi[0]
 				#print(str(i) + " " + str(mes[0]))
     			
-    	
+def getOnlineStatus(link,flag)
+
+	for (i,j) in servers_list:
+		if i == link:
+			if flag == 1:
+				j = 1
+			else
+				j = 0
     			
-    		
-    	
-    
     
     
 #Thread para controle da lista de servidores            
@@ -168,12 +172,16 @@ def serversControl(thread_name,mutex):
             if links != myLink: 
                 new_peer = getPeers(links)
                 if new_peer != None:
+					getOnlineStatus(links,1)
                     #print(servers_list)
                     for test in new_peer:
                         if not test in servers_list:
-                            servers_list.append(test)
+                            servers_list.append([test,0])
+                            
                             #msg = (test, 0)
                             #aux.append(msg)
+				else:
+					getOnlineStatus(links,0)
         mutex.release()
         #  time.sleep(1)
 
@@ -217,8 +225,8 @@ def getTableSize(x,y):
 				
 	print(messages)        
 
-x = int(sys.argv[2])
-y = int(sys.argv[3])
+x = int(sys.argv[3])
+y = int(sys.argv[2])
 getTableSize(x,y)
 #print(layoutx)
 #print(layouty)
