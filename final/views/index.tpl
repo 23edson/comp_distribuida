@@ -16,10 +16,10 @@ table{background: #fff none repeat scroll 0 0;
   /*list-style-image: url("http://www.ibm.com/support/knowledgecenter/pt-br/SSMR4U_10.2.1/com.ibm.swg.ba.cognos.prfmdl_ug.10.2.0.doc/tm1_scorecrd_icon_traffic_excellent.jpg");
      
 	list-style-image: url("http://www.lojapescaalternativa.com.br/skin/frontend/default/agenciasoft-pescaalternativa/images/circulo-verde-icone.png");
-   */
    
-   list-style-image: url("https://i-msdn.sec.s-msft.com/dynimg/IC104896.gif");
    
+   list-style-image: url("https://i-msdn.sec.s-msft.com/dynimg/IC104896.gif");*/
+   list-style-image: url("http://www.bernstein.oeaw.ac.at/twiki/pub/TWiki/TWikiDocGraphics/led-red.gif");
    
    
 }
@@ -73,9 +73,9 @@ textarea:focus {
   </head>
 
 <body>
-  <div style="position: relative;border-style: inset;text-align: center;padding: 5px;width: 500px;height: 90%;border-right-width: 10px;">
-  <h1 >   PLANILHA 1</h1>
- 
+  <div style="position: absolute;border-style: inset;text-align: center;padding: 5px;width: 500px; margin: 0 auto;min-height: 300px;height: 500px;border-right-width: 10px;">
+  <h1 style="font-family:verdana;"><i>   PLANILHA DE DADOS</i></h1>
+   <div style="position: relative;margin: 0 auto;padding:2px;height: auto;width:100%">
   <form id="form1" name="form1 "action="/send" method="POST"  >
   	<table cellpadding="0"; cellspacing="0">
 	<tr>
@@ -118,11 +118,11 @@ textarea:focus {
   	</table>
   	<input type="submit" style="visibility: hidden;"/>
   	
-  	</form>
+  	</form></div>
   	</div>
   	<!--<div style="position: relative;background-color: #000;height: 100%;width: 3px;left:600px;top:-400px;"></div>
   -->
-	<div style="position:relative;left: 524px;top:-584px;border-style: groove;padding: 5px; width: 200px; height: 90%;">
+	<div style="position:relative;;margin: 0 520px;border-style: groove;padding: 5px; width: 200px;min-height: 300px; height: 500px; border-color: #ccc">
 		<ul id="list">
 	<li>Item um</li>
 	<li>Item dois</li>

@@ -224,11 +224,11 @@ getTableSize(x,y)
 #print(layouty)
 #print(messages)
 myLink = "http://localhost:" + str(sys.argv[1])
-servers_list.append(myLink)
+servers_list.append([myLink,2])
 
 for i in sys.argv:
     if i != 'table.py' and i != sys.argv[1] and i!=sys.argv[2] and i!=sys.argv[3]:
-        servers_list.append("http://localhost:" +str(i))
+        servers_list.append(["http://localhost:" +str(i)],0)
         #msg = ("http://localhost:"+str(i),0)
         #aux.append(msg)
 print("lista de conhecidos inicializada\n")
