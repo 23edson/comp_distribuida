@@ -211,11 +211,7 @@ def getTableSize(x,y):
 				messages.append(["", str(i)+","+str(j)+";"])
 				
 			else:
-				messages.append(["",str(i)+","+str(j)])
-				
-				
-				
-	print(messages)        
+				messages.append(["",str(i)+","+str(j)])        
 
 x = int(sys.argv[2])
 y = int(sys.argv[3])

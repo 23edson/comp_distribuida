@@ -2,14 +2,60 @@
 
   <head>
     <style>
-      input{border:0px solid #000; margin:0; background:transparent; width:100%}
-table tr td{border-right:1px solid #000; border-bottom:1px solid #000;}
+      input{border:0px solid #000; margin:0; background:transparent; width:100%;text-align: center;}
+      input:focus{border:0px solid #ffa500;}
+table tr td{border-right:1px solid #080; border-bottom:1px solid #080;}
 table{background: #fff none repeat scroll 0 0;
-    border-left: 1px solid #000;
-    border-top: 1px solid #000;}
+    border-left: 1px solid #080;
+    border-top: 1px solid #080;}
     table tr:nth-child(even){background:#ccc;}
     table tr:nth-child(odd){background:#eee;}
+	p{text-align: center;color: #808080;}
+	
+	#list {
+  /*list-style-image: url("http://www.ibm.com/support/knowledgecenter/pt-br/SSMR4U_10.2.1/com.ibm.swg.ba.cognos.prfmdl_ug.10.2.0.doc/tm1_scorecrd_icon_traffic_excellent.jpg");
+     
+	list-style-image: url("http://www.lojapescaalternativa.com.br/skin/frontend/default/agenciasoft-pescaalternativa/images/circulo-verde-icone.png");
+   
+   
+   list-style-image: url("https://i-msdn.sec.s-msft.com/dynimg/IC104896.gif");
+   
+   */
+   list-style-image: url("views/green.gif");
+}
 
+	
+	
+.input {
+border:0; 
+padding:10px; 
+font-size:1.3em; 
+font-family:"Ubuntu Light","Ubuntu","Ubuntu Mono","Segoe Print","Segoe UI";
+color:#ff5; 
+border:solid 1px #ff5; 
+margin:0 0 0px; 
+width:100%;
+-moz-box-shadow: inset 0 0 4px rgba(255,165,0,0); 
+-webkit-box-shadow: inset 0 0 4px rgba(255, 165, 0, 0); 
+box-shadow: inner 0 0 4px rgba(255, 165, 0, 0);
+-webkit-border-radius: 3px; 
+-moz-border-radius: 3px; 
+border-radius: 3px;
+
+}
+input:focus { 
+    outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+textarea:focus {
+        outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}	
+	
+	
     </style>
     
     <script type="text/javascript">
@@ -23,19 +69,19 @@ table{background: #fff none repeat scroll 0 0;
     			
     		});
     </script>
-
+	<meta http-equiv="refresh" content="20" >
   </head>
 
 <body>
-
-  <h1 align="right">   PLANILHA 1</h1>
+  <div style="position: relative;border-style: inset;text-align: center;padding: 5px;width: 500px;height: 90%;border-right-width: 10px;">
+  <h1 >   PLANILHA 1</h1>
  
-  <form id="form1" name="form1 "action="/send" method="POST" >
+  <form id="form1" name="form1 "action="/send" method="POST"  >
   	<table cellpadding="0"; cellspacing="0">
 	<tr>
 	 	
   		%for (i) in layoutx:
-  			<td width="100"> <p align="center"><b > {{i}} </b></p> </td>
+  			<td width="100"> <p  ><b > {{i}} </b></p> </td>
   		%end
   	</tr>
   	%c = len(layoutx)-1
@@ -48,7 +94,7 @@ table{background: #fff none repeat scroll 0 0;
   	
    %for (j) in layouty:
   		<tr>
-		<td width="100"> <p align="center"><b> {{j}} </b></p> </td>
+		<td width="100"> <p ><b> {{j}} </b></p> </td>
 		%for (index,item) in enumerate(messages):
 			%if count<=flag and index >= count-1:
 				%if ';' in item[1]:
@@ -72,9 +118,19 @@ table{background: #fff none repeat scroll 0 0;
   	</table>
   	<input type="submit" style="visibility: hidden;"/>
   	
-  	</form> 
-  
-
+  	</form>
+  	</div>
+  	<!--<div style="position: relative;background-color: #000;height: 100%;width: 3px;left:600px;top:-400px;"></div>
+  -->
+	<div style="position:relative;left: 524px;top:-584px;border-style: groove;padding: 5px; width: 200px; height: 90%;">
+		<ul id="list">
+	<li>Item um</li>
+	<li>Item dois</li>
+	<li>Item três</li>
+</ul>
+	
+	
+	</div>
 </body>
 
 </html>
