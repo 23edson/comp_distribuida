@@ -12,17 +12,22 @@ table{background: #fff none repeat scroll 0 0;
     table tr:nth-child(odd){background:#eee;}
 	p{text-align: center;color: #808080;}
 	
-	#list {
+	#listOff {
   /*list-style-image: url("http://www.ibm.com/support/knowledgecenter/pt-br/SSMR4U_10.2.1/com.ibm.swg.ba.cognos.prfmdl_ug.10.2.0.doc/tm1_scorecrd_icon_traffic_excellent.jpg");
      
 	list-style-image: url("http://www.lojapescaalternativa.com.br/skin/frontend/default/agenciasoft-pescaalternativa/images/circulo-verde-icone.png");
    
    
    list-style-image: url("https://i-msdn.sec.s-msft.com/dynimg/IC104896.gif");*/
-   list-style-image: url("http://www.bernstein.oeaw.ac.at/twiki/pub/TWiki/TWikiDocGraphics/led-red.gif");
+   	list-style-image: url("http://www.bernstein.oeaw.ac.at/twiki/pub/TWiki/TWikiDocGraphics/led-red.gif");
    
    
-}
+	}
+	#listOn{
+		list-style-image: url("https://i-msdn.sec.s-msft.com/dynimg/IC104896.gif");
+	
+	
+	}
 
 	
 	
@@ -123,13 +128,23 @@ textarea:focus {
   	<!--<div style="position: relative;background-color: #000;height: 100%;width: 3px;left:600px;top:-400px;"></div>
   -->
 	<div style="position:relative;;margin: 0 520px;border-style: groove;padding: 5px; width: 200px;min-height: 300px; height: 500px; border-color: #ccc">
-		<ul id="list">
-	<li>Item um</li>
-	<li>Item dois</li>
-	<li>Item três</li>
-</ul>
-	
-	
+		%for i in users:
+			%name = i[0]
+			%print("teste"+ str(name))
+			<ul id="listOn"> 
+					<li>Client{{name[16:]}}</li>			 	
+			 	</ul>
+			%if j == 1:
+			 	<ul id="listOn"> 
+					<li>Client{{name[16:]}}</li>			 	
+			 	</ul>
+			%elif j == 0:
+				<ul id="listOff">
+					<li>Client{{name[16:]}}</li>				
+				
+				</ul>
+			%end
+		%end		
 	</div>
 </body>
 

@@ -13,6 +13,7 @@ from vectorclock import VectorClock
 
 messages = []
 servers_list = []
+know_servers = []
 layoutx = []
 layouty = []
 x = 0
@@ -84,13 +85,14 @@ def clockMethod():
 	return data
 
 def getPeers(who):
-    url = str(who) + "/peers"
+    url = str(who[0]) + "/peers"
     #print("teste"+url+"\n")
 
     try:
         req = requests.get(url)
         if req.status_code == NO_ERROR:
             data = json.loads(req.text)
+            #print(data)
             
             return data
     except:
@@ -100,8 +102,9 @@ def getPeers(who):
 
         
 def getMessages(who):
-    url = str(who) + "/msgs"
+    url = str(who[0]) + "/msgs"
     #print(" " + url + "\n")
+   # print(url)
     try:
 
         req = requests.get(url)
@@ -129,7 +132,9 @@ def getClock(who):
 def checkList(msg, host):
 	temp = VectorClock()
 	data = getClock(host)
-	temp.listToObj(data)
+	for  (i,j) in data:
+		temp.update(i,j)
+	#temp.listToObj(data)
 	#print(msg)
 	#return 0
 	for (index,msgi) in enumerate(msg):
@@ -147,13 +152,13 @@ def checkList(msg, host):
 				mes[0] = msgi[0]
 				#print(str(i) + " " + str(mes[0]))
     			
-def getOnlineStatus(link,flag)
+def getOnlineStatus(link,flag):
 
 	for (i,j) in servers_list:
 		if i == link:
 			if flag == 1:
 				j = 1
-			else
+			else:
 				j = 0
     			
     
@@ -162,27 +167,26 @@ def getOnlineStatus(link,flag)
 def serversControl(thread_name,mutex):
     print(thread_name + " iniciada")
     while 1:
+    	time.sleep(1)
+    	mutex.acquire(1)
+    	global servers_list
+    	for links in servers_list:
+    		
+    		if links[0]!=myLink:
     	
-        #print("")
-        time.sleep(1)
-        mutex.acquire(1)
-        
-        global servers_list
-        for links in servers_list:
-            if links != myLink: 
-                new_peer = getPeers(links)
-                if new_peer != None:
-					getOnlineStatus(links,1)
-                    #print(servers_list)
-                    for test in new_peer:
-                        if not test in servers_list:
-                            servers_list.append([test,0])
-                            
-                            #msg = (test, 0)
-                            #aux.append(msg)
-				else:
-					getOnlineStatus(links,0)
-        mutex.release()
+    			new_peer=getPeers(links)
+    			if new_peer!=None:
+    				if links[0] in know_servers:
+    					getOnlineStatus(links,1)
+    				for test in new_peer:
+    					if not test in servers_list:
+    						servers_list.append([test])
+    						
+    						
+    			else:
+    				if links[0] in know_servers:
+    					getOnlineStatus(links,0)
+    	mutex.release()
         #  time.sleep(1)
 
 #Thread para controle da lista de mensagens
@@ -194,12 +198,12 @@ def messagesControl(thread_name,mutex):
         time.sleep(0.8)
         global messages
         for link in servers_list:
-            if link != myLink:
+            if link[0] != myLink:
                 msg = getMessages(link)
                 if msg != None:
                     #print("entrei")
                     #print(msg)
-                    checkList(msg, link)
+                    checkList(msg, link[0])
         mutex.release()
         
 def getTableSize(x,y):
@@ -223,7 +227,7 @@ def getTableSize(x,y):
 				
 				
 				
-	print(messages)        
+	#print(messages)        
 
 x = int(sys.argv[3])
 y = int(sys.argv[2])
@@ -233,10 +237,12 @@ getTableSize(x,y)
 #print(messages)
 myLink = "http://localhost:" + str(sys.argv[1])
 servers_list.append([myLink,2])
+know_servers.append([myLink])
 
 for i in sys.argv:
     if i != 'table.py' and i != sys.argv[1] and i!=sys.argv[2] and i!=sys.argv[3]:
-        servers_list.append(["http://localhost:" +str(i)],0)
+        servers_list.append(["http://localhost:" +str(i),0])
+        know_servers.append(["http://localhost:" +str(i)])
         #msg = ("http://localhost:"+str(i),0)
         #aux.append(msg)
 print("lista de conhecidos inicializada\n")
