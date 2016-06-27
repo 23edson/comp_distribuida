@@ -110,12 +110,12 @@ class DHT:
                 if req.status_code == NO_ERROR:
                     data = json.loads(req.text)
                     
-                    if data[0]:#se flag for positiva, encontrou o server
+                    if data[0]:
                         return data
-                    elif data[2] > find[2]:#se tamanho da chave for maior que a ja tem
+                    elif data[2] > find[2]:
                         find[1] = find[1]
                         find[2] = find[2]
-                    else: #em último caso, retorna falso
+                    else:
                         print("Key not found")
                         return None
             except requests.exceptions.RequestException as e:

@@ -130,19 +130,20 @@ textarea:focus {
 	<div style="position:relative;;margin: 0 520px;border-style: groove;padding: 5px; width: 200px;min-height: 300px; height: 500px; border-color: #ccc">
 		%for i in users:
 			%name = i[0]
-			%print("teste"+ str(name))
-			<ul id="listOn"> 
-					<li>Client{{name[16:]}}</li>			 	
-			 	</ul>
-			%if j == 1:
-			 	<ul id="listOn"> 
-					<li>Client{{name[16:]}}</li>			 	
-			 	</ul>
-			%elif j == 0:
-				<ul id="listOff">
-					<li>Client{{name[16:]}}</li>				
+			%j = i[1]
+			%if j == 2:
+				<ul id="listOn"><li>Me</li></ul>
+			%else:
+			 	%if j == 1:
+			 		<ul id="listOn"> 
+						<li>Client{{name[16:]}}</li>			 	
+			 		</ul>
+				%elif j == 0:
+					<ul id="listOff">
+						<li>Client{{name[16:]}}</li>				
+					</ul>
 				
-				</ul>
+				%end
 			%end
 		%end		
 	</div>

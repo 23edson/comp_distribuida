@@ -8,11 +8,6 @@ url = "localhost:"
 protocol = "http://"
 hosts = []
 
-#curl -w "\n" -X GET "http://localhost:8080/dht/lookup_dist/01100112012101010222220100121201"
-# curl -w "\n" -X GET "http://localhost:8080/dht/lookup/01202210112120201101020112222202"
-
-#key 01100112012101010222220100121201 chave http://localhost:8080
-#key 01202210112120201101020112222202 chave http://localhost:8082
 
 port = int(sys.argv[1])
 
