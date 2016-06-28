@@ -7,6 +7,7 @@ from hashf import hashFunction
 MOD = 3
 NO_ERROR = 200
 PROTOCOL = "http://"
+myLink = "localhost:" + str(sys.argv[1])
 # BUGLIST
 # - insercao da mesma chave 2 vezes, possibilita inserir o mesmo par de chave/valer em posicoes diferentes da DHT
 # - necessario cria uma maneira para inicializar a DHT, a partir de uma chave inicial
@@ -91,37 +92,38 @@ class DHT:
                  if self.h[sk]:
                      (ki, vi) = self.h[sk]
                      if ki == k:
-                         keys.append([1,vi,0])
-                         return keys
+                         #keys.append([1,vi,0])
+                         return [1,vi,0]
                      else:
-                         keys.append([0,vi,len(sk)])
-                         return keys
+                         #keys.append([0,vi,len(sk)])
+                         return [0,vi,len(sk)]
                     
 
     def lookup_dist(self,k):
         find = self.lookup(k)
-        for i in find:
-        	a = i[0]
-        	b = i[1]
-        	c = i[2]
-        	
-        print("enc " + a+" "+ b + " " + c)
+        a = find[0]
+        b = find[1]
+        c = find[2]
+        print("enc " + str(a)+" "+ str(b) + " " + str(c))
         #(s,t,v) = find
-        if find[0]:
-            return find
+        if a:
+            return [a,b,c,myLink]
 
         while True:
             try:
-                req = requests.get(PROTOCOL + find[1] + '/dht/lookup/' + k)
+                req = requests.get(PROTOCOL + str(b) + '/dht/lookup/' + k)
+                who = b
                 if req.status_code == NO_ERROR:
                     data = json.loads(req.text)
-                    
-                    if data[0]:#se flag for positiva, encontrou o server
-                    	data[0] = 2
-                    	return data
-                    elif data[2] > find[2]:#se tamanho da chave for maior que a ja tem
-                        find[1] = find[1]
-                        find[2] = find[2]
+                    print(str(data[0])+ " yy")
+                    a1 = data[0]
+                    b1 = data[1]
+                    c1 = data[2]
+                    if a1:#se flag for positiva, encontrou o server
+                    	return [2,b1,c1,who]
+                    elif c1 > c:#se tamanho da chave for maior que a ja tem
+                        a = a1
+                        b = b1
                     else: #em último caso, retorna falso
                         print("Key not found")
                         return None
@@ -140,7 +142,7 @@ def dht_lookup(key):
     #global PROTOCOL
     aux = dht.lookup(key)
     if aux[0]:
-    	return json.dumps("Found")
+    	return json.dumps(myLink)
     	
     return json.dumps("Not Found")
 
@@ -152,14 +154,14 @@ def dht_lookup_dist(key):
     aux=dht.lookup_dist(key)
     #string = aux[0]
     #num = string[:3]
-    print("t" + str(aux[3:]))
+    #print("t" + str(aux[0]))
     #print(s)
     if aux == None:
     	return json.dumps("Not Found")
     if aux[0]==1:
-    	return json.dumps("Found")
+    	return json.dumps(aux[3])
     	
-    return json.dumps("cabate")
+    return json.dumps(aux[3])
 
 @put('/dht/<key>/<value>')
 def dht_insert(key, value):
