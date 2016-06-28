@@ -100,6 +100,12 @@ class DHT:
 
     def lookup_dist(self,k):
         find = self.lookup(k)
+        for i in find:
+        	a = i[0]
+        	b = i[1]
+        	c = i[2]
+        	
+        print("enc " + str(a)+" "+ str(b) + " " + str(c))
         #(s,t,v) = find
         if find[0]:
             return find
@@ -111,7 +117,8 @@ class DHT:
                     data = json.loads(req.text)
                     
                     if data[0]:#se flag for positiva, encontrou o server
-                        return data
+                    	data[0] = 2
+                    	return data
                     elif data[2] > find[2]:#se tamanho da chave for maior que a ja tem
                         find[1] = find[1]
                         find[2] = find[2]
@@ -131,13 +138,28 @@ class DHT:
 def dht_lookup(key):
     global dht
     #global PROTOCOL
-    return json.dumps(dht.lookup(key))
+    aux = dht.lookup(key)
+    if aux[0]:
+    	return json.dumps("Found")
+    	
+    return json.dumps("Not Found")
 
 @get('/dht/lookup_dist/<key>')
 def dht_lookup_dist(key):
     global dht
     #global PROTOCOL
-    return json.dumps(dht.lookup_dist(key))
+    aux = []
+    aux=dht.lookup_dist(key)
+    #string = aux[0]
+    #num = string[:3]
+    print("t" + str(aux[3:]))
+    #print(s)
+    if aux == None:
+    	return json.dumps("Not Found")
+    if aux[0]==1:
+    	return json.dumps("Found")
+    	
+    return json.dumps("cabate")
 
 @put('/dht/<key>/<value>')
 def dht_insert(key, value):

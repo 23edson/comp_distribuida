@@ -112,7 +112,7 @@ def serversControl(thread_name,mutex):
     while 1:
         #print("")
         mutex.acquire(1)
-        time.sleep(0.7)
+        time.sleep(1)
         global servers_list
         for links in servers_list:
             if links != myLink: 
