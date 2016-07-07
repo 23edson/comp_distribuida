@@ -56,6 +56,6 @@ tfinal - ok (planilha de dados)
 	  				 -GET /clock - Retorna o vetor relógio do servidor;
 	  				 -PUT /peers/<name> - Insere o servidor passado na url para fins de sincronização dos nodos.
 	  				 
-	  BUGS conhecidos:
+	  BUGS:
 	  			Tabelas inicializadas com dimensões diferentes podem causar inserções em posições erradas da tabela;
 	  			A sincronia das mensagens pode não acontecer com atualizações em um curto espaço de tempo; 
